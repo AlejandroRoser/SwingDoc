@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -164,7 +161,12 @@ public class LoginForm extends JFrame {
                 // No necesitamos implementar este método
             }
         });
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmacion();
+            }
+        });
         setVisible(true);
     }
 
@@ -184,6 +186,24 @@ public class LoginForm extends JFrame {
             JOptionPane.showMessageDialog(LoginForm.this, "Login Failed. Please check your credentials.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private void confirmacion() {
+        int option = JOptionPane.showOptionDialog(
+                this,
+                "¿Estás seguro de que deseas cerrar la aplicación?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new Object[]{"Sí", "No"},
+                "No"
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+            // Si el usuario elige 'Sí', cerrar la aplicación
+            System.exit(0);
+        }
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
